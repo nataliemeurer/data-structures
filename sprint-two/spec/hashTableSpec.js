@@ -18,6 +18,12 @@ describe('hashTable', function() {
     expect(hashTable.retrieve('Steven')).to.equal('Seagal');
   });
 
+  // it('should be able to manage multiple values at the same index', function() {
+  //   hashTable.insert(5, "hi");
+  //   hashTable.insert(5, "hi2");
+
+  // });
+
   it('should not contain values that were not inserted', function() {
     hashTable.insert('Steven', 'Spielberg');
     expect(hashTable.retrieve('Steven')).not.to.equal('Seagal');

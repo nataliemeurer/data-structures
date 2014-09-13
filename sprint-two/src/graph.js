@@ -30,12 +30,19 @@ Graph.prototype.contains = function(node){
 
 Graph.prototype.removeNode = function(node){
   // check if that node actually exists
+  var exists = this.contains(node);
   // if it does 
+  if (exists) {
+    var removed = this.nodes[node];
     // delete it
+    delete this.nodes[node];
     // decrement size
-    // return it
+    this.size--;
+    return removed;
+  } else {
   // otherwise
-    // null
+    return null;
+  }
 };
 
 Graph.prototype.getEdge = function(fromNode, toNode){

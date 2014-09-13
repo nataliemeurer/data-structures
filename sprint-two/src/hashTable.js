@@ -1,32 +1,61 @@
 var HashTable = function(){
   this._limit = 8;
   this._storage = makeLimitedArray(this._limit);
+  this._size = 0;
+};
+
+HashTable.prototype.expand = function(){
+  var oldStorage = [];
+  for(var i = 0; i < this._limit; i++){
+     if(this._storage[i] !== undefined){
+      oldStorage.push(this._storage[i]);
+     }
+  }
+  this._limit *= 2;
+  this._storage = makeLimitedArray(this._limit);
+  this.size = 0;
+  for(var i = 0; i < oldStorage.length; i++){
+      for(var j = 0; j < oldStorage[i].length; j++){
+        this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
+      }
+    }
+};
+
+HashTable.prototype.shrink = function(){
+  var oldStorage = [];
+  for(var i = 0; i < this._limit; i++){
+     if(this._storage[i] !== undefined){
+      oldStorage.push(this._storage[i]);
+     }
+  }
+  this._limit /= 2;
+  this._storage = makeLimitedArray(this._limit);
+  this.size = 0;
+  for(var i = 0; i < oldStorage.length; i++){
+      for(var j = 0; j < oldStorage[i].length; j++){
+        this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
+      }
+  }
+  delete oldStorage;
 };
 
 HashTable.prototype.insert = function(key, value){
-  var i = 0;
-  var newItem = [key, value];
-  if( typeof key === "string" ){
-    i = getIndexBelowMaxForKey(key, this._limit);
-  } else {
-    i = intHash(key, this._limit);
+  if(this.size >= (this._limit*.75)){
+    this.expand();
   }
+  var newItem = [key, value];
+  var i = getIndexBelowMaxForKey(key, this._limit);
   if ( Array.isArray(this._storage[i]) ){
     this._storage[i].push(newItem);
   } else {
     this._storage[i] = [];
     this._storage[i].push(newItem);
   }
+  this.size++;
 };
 
 HashTable.prototype.retrieve = function(key){
-  var i = 0;
-  if( typeof key === "string" ){
-    i = getIndexBelowMaxForKey(key, this._limit);
-  } else {
-    i = intHash(key, this._limit);
-  }
-
+  var i = getIndexBelowMaxForKey(key, this._limit);
   if( !Array.isArray(this._storage[i]) ){
     return null;
   } else if ( Array.isArray(this._storage[i]) ){
@@ -44,12 +73,14 @@ HashTable.prototype.retrieve = function(key){
 };
 
 HashTable.prototype.remove = function(key){
-  var i = 0;
-  if( typeof key === "string" ){
-    i = getIndexBelowMaxForKey(key, this._limit);
-  } else {
-    i = intHash(key, this._limit);
+  if(this.size <= (this._limit*.25)){
+    this.shrink();
   }
+  if(this.size === 0){
+    return null;
+  }
+
+  var i = getIndexBelowMaxForKey(key, this._limit);
   var hashArray = this._storage[i];
 
   if(!Array.isArray(hashArray)){
@@ -58,15 +89,12 @@ HashTable.prototype.remove = function(key){
     for(var j = 0; j < hashArray.length; j++){
       if(hashArray[j][0] === key) {
         hashArray.splice(j, 1);
+        this.size--;
       }
     }
   } else {
     return;
   }
-};
-
-var intHash = function(key, max){
-  return key % max;
 };
 
 

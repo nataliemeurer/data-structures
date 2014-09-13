@@ -1,7 +1,11 @@
 var Graph = function(){
+  this.edges = undefined;
 };
 
 Graph.prototype.addNode = function(newNode, toNode){
+  newNode.edges = [];
+
+
 };
 
 Graph.prototype.contains = function(node){

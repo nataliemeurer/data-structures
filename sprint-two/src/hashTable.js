@@ -20,7 +20,6 @@ HashTable.prototype.insert = function(key, value){
 };
 
 HashTable.prototype.retrieve = function(key){
-  debugger;
   var i = 0;
   if( typeof key === "string" ){
     i = getIndexBelowMaxForKey(key, this._limit);
@@ -45,7 +44,6 @@ HashTable.prototype.retrieve = function(key){
 };
 
 HashTable.prototype.remove = function(key){
-  debugger;
   var i = 0;
   if( typeof key === "string" ){
     i = getIndexBelowMaxForKey(key, this._limit);

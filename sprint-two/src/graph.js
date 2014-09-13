@@ -1,5 +1,4 @@
 var Graph = function(){
-<<<<<<< HEAD
 	this.nodes = {};
 	this.size = 0;
 };

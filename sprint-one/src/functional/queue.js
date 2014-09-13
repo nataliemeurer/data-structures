@@ -7,20 +7,20 @@ var makeQueue = function(){
   // Implement the methods below
 
   someInstance.enqueue = function(value){
-    size++;
     storage[size] = value;
+    size++;
   };
 
   someInstance.dequeue = function(){
-    if(size !== 0){
-      var dequeued = storage[1];
-      delete storage[1];
-      for (var i = 1; i < size; i++){
-        storage[i] = storage[i+1];
+    if ( size !== 0){
+      var remove = storage[0];
+      delete storage[0];
+      for(var i = 0; i < size; i++){
+        storage[i] = storage[i + 1];
       }
-      delete storage[size];
+
       size--;
-      return dequeued;
+      return remove;
     }
   };
 

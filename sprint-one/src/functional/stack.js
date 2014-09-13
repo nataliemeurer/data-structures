@@ -6,22 +6,25 @@ var makeStack = function(){
   var size = 0;
 
   // Implement the methods below
-    someInstance.push = function(value){
-      size++;
-      storage[size] = value;
-    };
+  someInstance.push = function(value){
+    storage[size] = value;
+    size++;
+  };
 
-    someInstance.pop = function(){
-      var popped = storage[size];
+  someInstance.pop = function(){
+    if(size !== 0){
+      size--;
+      var removed = storage[size];
       delete storage[size];
-      if(size > 0){
-        size--;
-      }
-      return popped;
-    };
+      console.log(size);
+      return removed;
+    }
+  };
 
-    someInstance.size = function(){
-      return size;
-    };
-    return someInstance;
+  someInstance.size = function(){
+    return size;
+  };
+
+  return someInstance;
 };
+>>>>>>> pairSprint

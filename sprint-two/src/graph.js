@@ -4,15 +4,18 @@ var Graph = function(){
 };
 
 Graph.prototype.addNode = function(newNode, toNode){
-  // check size // 0
   // check toNode
+  // check size // 0
+  if( this.size === 0 ){
+    // make a node out of newNode
+    var node = { edges: [] };
+    // add a newNode key to our nodes
+    this.nodes[newNode] = node;  
+  } else if( this.size === 1 ){
 
-  // make a node out of newNode
-  var node = { edges: [] };
+  } else {
 
-  // add a newNode key to our nodes
-  this.nodes[newNode] = node;
-
+  }
   // increment size
   this.size++;
 };
@@ -49,6 +52,12 @@ Graph.prototype.getEdge = function(fromNode, toNode){
 };
 
 Graph.prototype.addEdge = function(fromNode, toNode){
+  if ( fromNode && toNode ){
+    if(this.contains(fromNode) && this.contains(toNode)){
+      this.nodes[fromNode].edges.push(toNode);
+      this.nodes[toNode].edges.push(fromNode);
+    }
+  }
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode){

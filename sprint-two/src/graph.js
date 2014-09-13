@@ -9,33 +9,25 @@ Graph.prototype.addNode = function(newNode, toNode){
   var node = { edges: [] };
   
   if( this.size === 0 ){
-    // make a node out of newNode
-    // add a newNode key to our nodes
-    this.nodes[newNode] = node;  
-  } else if( this.size === 1 ){
-    this.nodes[newNode] = node;
-    if( toNode !== undefined && this.contains(toNode) ){
-      this.addEdge(newNode, toNode);
-    } else {
+    this.nodes[newNode] = node; 
+    this.size++; 
+  } else if ( this.size === 1 ){
       var onlyNode = Object.keys(this.nodes)[0];
-      this.addEdge(newNode, onlyNode);
-    }
-  } else {
-    if( toNode !== undefined && this.contains(toNode) ){
       this.nodes[newNode] = node;
-      this.addEdge(newNode, toNode);
+      this.addEdge(newNode, onlyNode);
+      this.size++;
+    }else {
+      if(/*toNode !== undefined &&*/ this.contains(toNode)) { 
+        this.nodes[newNode] = node; 
+        this.addEdge(newNode, toNode);
+        this.size++;
+      }
     }
-  this.size++;
-  }
-  // increment size
 };
 
 Graph.prototype.contains = function(node){
-  // check graph for passed in value
-  // if it exists
   if (this.nodes[node] !== undefined) {
     return true;
-  // if not return false
   } else {
     return false;
   }
@@ -59,6 +51,11 @@ Graph.prototype.removeNode = function(node){
 };
 
 Graph.prototype.getEdge = function(fromNode, toNode){
+  if ( this.nodes[fromNode].edges.indexOf(toNode) !== -1 ){
+    return true;
+  } else {
+    return false;
+  }
 };
 
 Graph.prototype.addEdge = function(fromNode, toNode){
@@ -71,6 +68,20 @@ Graph.prototype.addEdge = function(fromNode, toNode){
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode){
+
+
+  var fromIdx = this.nodes[fromNode].edges.indexOf(toNode);
+  var toIdx = this.nodes[toNode].edges.indexOf(fromNode);
+  if ( fromNode && toNode ){
+    if(this.contains(fromNode) && this.contains(toNode)){
+      this.nodes[fromNode].edges.splice(fromIdx, 1);
+      this.nodes[toNode].edges.splice(toIdx, 1);
+    }
+  }
+  if ( this.nodes[fromNode].edges.length === 0 && this.nodes[toNode].edges.length === 0 ){
+    this.removeNode(fromNode);
+    this.removeNode(toNode);
+  }
 };
 
 /*

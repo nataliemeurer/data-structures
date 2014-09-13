@@ -51,5 +51,20 @@ describe('linkedList', function() {
     expect(linkedList.contains(4)).to.equal(false);
   });
 
+  it('should successfully remove a tail from the list and not remove anything else', function(){
+    linkedList.addToTail("He screamed:");
+    linkedList.addToTail("ooga");
+    linkedList.addToTail("booga!");
+    linkedList.removeTail();
+    expect(linkedList.contains("booga!")).to.equal(false);
+    expect(linkedList.contains("ooga")).to.equal(true);
+  });
+
+  it('should successfully add a head to the list', function(){
+    linkedList.addToHead("Saturday");
+    linkedList.addToHead("It is");
+    expect(linkedList.head.value).to.equal("It is");
+  });
+
   // add more tests here to test the functionality of linkedList
 });

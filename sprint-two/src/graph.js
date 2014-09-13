@@ -6,18 +6,28 @@ var Graph = function(){
 Graph.prototype.addNode = function(newNode, toNode){
   // check toNode
   // check size // 0
+  var node = { edges: [] };
+  
   if( this.size === 0 ){
     // make a node out of newNode
-    var node = { edges: [] };
     // add a newNode key to our nodes
     this.nodes[newNode] = node;  
   } else if( this.size === 1 ){
-
+    this.nodes[newNode] = node;
+    if( toNode !== undefined && this.contains(toNode) ){
+      this.addEdge(newNode, toNode);
+    } else {
+      var onlyNode = Object.keys(this.nodes)[0];
+      this.addEdge(newNode, onlyNode);
+    }
   } else {
-
+    if( toNode !== undefined && this.contains(toNode) ){
+      this.nodes[newNode] = node;
+      this.addEdge(newNode, toNode);
+    }
+  this.size++;
   }
   // increment size
-  this.size++;
 };
 
 Graph.prototype.contains = function(node){
